@@ -1,12 +1,26 @@
 <%include partials/header%>
-<h1><%=campground.name%></h1>
-<img class="img-fluid" src="<%= campground.image%>" alt="<%=campground.name%>">
-<p><%= campground.description%></p>
-<%campground.comments.forEach((comment)=>{%>
-    <p>
-        <strong><%=comment.author%></strong>
-        <p><%=comment.text%></p>
-    </p>
+<div class="container">
+    <div class="row">
+        <div class="col-md-3">
+            <p class="lead">YelpCamp</p>
+            <div class="list-group">
+                <li class="list-group-item">Info 1</li>
+                <li class="list-group-item">Info 2</li>
+                <li class="list-group-item">Info 3</li>
+            </div>
+        </div>
+        <div class="col-md-9">
+            <h1><%=campground.name%></h1>
+            <img class="img-fluid" src="<%= campground.image%>" alt="<%=campground.name%>">
+            <p><%= campground.description%></p>
+            <%campground.comments.forEach((comment)=>{%>
+                <p>
+                    <strong><%=comment.author%></strong>
+                    <p><%=comment.text%></p>
+                     </p>
+            <%});%>
+        </div>
+    </div>
+</div>
 
-<%});%>
 <%include partials/footer%>
