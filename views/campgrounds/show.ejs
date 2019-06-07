@@ -12,10 +12,19 @@
         </div>
         <div class="col-md-9">
             <div class="card">
-                <img class="card-img-top" src="<%= campground.image%>" alt="<%=campground.name%>">
+                <img class="card-img-top" src="<%=campground.image%>" alt="<%=campground.name%>">
                 <div class="card-body">
                     <h3 class="card-title"><%=campground.name%></h3>
                     <p class="card-text"><%= campground.description%></p>
+                    <p>
+                        <em>Submited by <%=campground.author.username%></em>
+                    </p>
+                    <%if(currentUser && campground.author.id.equals(currentUser._id)){%>
+                    <a href="/campgrounds/<%=campground._id%>/edit" class="btn btn-info btn-sm">Edit</a>
+                    <form action="/campgrounds/<%=campground._id%>?_method=DELETE" method="POST" class="deleteForm">
+                        <input type="submit" class="btn btn-danger btn-sm" value="Delete">
+                    </form>
+                    <%}%>
                 </div>
             </div>
             <br>
@@ -30,8 +39,10 @@
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="d-flex justify-content-between">
-                                    <strong class="text-left"><%=comment.author%></strong>
-                                    <span class="text-right">10 days ago</span>
+                                    <strong class="text-left"><%=comment.author.username%></strong>
+                                    <span class="text-right">
+                                    <%=comment.date.toDateString()%>
+                                    </span>
                                 </div>
                             </div>
                         </div>
@@ -40,8 +51,20 @@
                                 <p>
                                     <%=comment.text%>
                                 </p>
+                                <p><%=comment.id%></p>
+                                <%if(currentUser && comment.author.id.equals(currentUser._id)){%>
+                                <div class="text-right">
+                                    <a 
+                                    href="/campgrounds/<%=campground._id%>/comments/<%=comment._id%>/edit" 
+                                    class="btn btn-sm btn-light" title="edit"><i class="far fa-edit"></i></a>
+                                    <form action="/campgrounds/<%=campground._id%>/comments/<%=comment._id%>?_method=DELETE" method="POST" class="deleteForm">
+                                        <button class="btn btn-sm btn-light" title="delete"><i class="fas fa-trash-alt"></i></button>
+                                    </form>
+                                </div>
+                                <%}%>
                             </div>
                         </div>
+                        <hr>
                     <%})%>
                 </div>
             </div>

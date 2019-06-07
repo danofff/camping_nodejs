@@ -1,3 +1,7 @@
 div.nav{
     width:100%;
 }
+
+.deleteForm{
+    display: inline;
+}
