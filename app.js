@@ -6,6 +6,7 @@ let mongoose = require("mongoose");
 let passport = require("passport");
 let localStrategy = require("passport-local");
 let methodOverrde = require("method-override");
+let flash = require("connect-flash");
 let Campground = require("./models/campground");
 let Comment = require("./models/comment");
 let seedDb = require("./seeds");
@@ -21,6 +22,7 @@ app.set("view engine", "ejs");
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static(__dirname+"/public"));
 app.use(methodOverrde("_method"));
+app.use(flash());
 
 //add some data to database
 // seedDb();
@@ -39,6 +41,8 @@ passport.deserializeUser(User.deserializeUser());
 
 app.use((req, res, next)=>{
     res.locals.currentUser = req.user;
+    res.locals.error = req.flash("error");
+    res.locals.success = req.flash("success");
     next();
 });
 

@@ -4,8 +4,9 @@ let Campground = require("../models/campground");
 let middlewareObj = {
     checkCampgroundOwnership: (req, res, next)=>{
         if(req.isAuthenticated()){
-            Campground.findById(req.params.id, (err, foundCampground)=>{
+            Campground.findById(req.params.id).populate("comments").exec((err, foundCampground)=>{
                 if(err){
+                    req.flash("error", "campground not found!");
                     console.log(err);
                     res.redirect("back");
                 }
@@ -15,13 +16,15 @@ let middlewareObj = {
                         next();
                     }
                     else{
-                        res.redirect("back");
+                        req.flash("error", "It seems, that you didn't add this campground");
+                        res.render("campgrounds/show", {campground: foundCampground});
+                        }
                     }
-                }
-            });
+                });
         }
         else{
-            res.redirect("back");
+            req.flash("error", "Please, log in");
+            res.redirect("/login");
         }
     },
     checkCommentOwnership: (req, res, next)=>{
@@ -43,6 +46,7 @@ let middlewareObj = {
             });
         }
         else{
+            req.flash("error", "Please, log in");
             res.redirect("back");
         }
     },
@@ -50,6 +54,7 @@ let middlewareObj = {
         if(req.isAuthenticated()){
             return next();
         }
+        req.flash("error", "Please, log in!");
         res.redirect("/login");
     }
 };

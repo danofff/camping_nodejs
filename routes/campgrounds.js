@@ -63,6 +63,10 @@ router.get("/:id", (req, res)=>{
 //EDIT - edit created campground
 router.get("/:id/edit", middleware.checkCampgroundOwnership, (req, res)=>{
     Campground.findById(req.params.id, (err, foundCampground)=>{
+        if(err){
+            req.flash("error", "Campground not found!");
+            res.redirect("back");
+        }
         res.render("campgrounds/edit", {campground: foundCampground});
     });        
 });

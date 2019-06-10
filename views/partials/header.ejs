@@ -22,5 +22,16 @@
       </ul>
     </div>
   </nav>
+  <%if(error && error.length>0){%>
+    <div class="alert alert-danger">
+      <%=error%>
+    </div>
+  <%}%>
+
+  <%if(success && success.length>0){%>
+    <div class="alert alert-success">
+      <%=success%>
+    </div>
+  <%}%>
 </div>
     <%# content goes here %>
