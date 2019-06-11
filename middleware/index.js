@@ -17,7 +17,7 @@ let middlewareObj = {
                     }
                     else{
                         req.flash("error", "It seems, that you didn't add this campground");
-                        res.render("campgrounds/show", {campground: foundCampground});
+                        res.redirect("/campgrounds/"+foundCampground._id);
                         }
                     }
                 });
@@ -40,6 +40,7 @@ let middlewareObj = {
                         next();
                     }
                     else{
+                        req.flash("error", "You don't have permission to do that.");
                         res.redirect("back");
                     }
                 }

@@ -9,6 +9,7 @@ let middleware = require("../middleware");
 router.get("/new", middleware.isLoggedIn, (req, res)=>{
     Campground.findById(req.params.id, (err, foundCampground)=>{
         if(err){
+            req.flash("error", "Something went wrong!");
             console.log(err);
         }
         else{
@@ -79,6 +80,7 @@ router.delete("/:comment_id", middleware.checkCommentOwnership, (req, res)=>{
             res.redirect("back");
         }
         else{
+            req.flash("success", "Succesfully deleted comment!");
             res.redirect(`/campgrounds/${req.params.id}`);
         }
     });
